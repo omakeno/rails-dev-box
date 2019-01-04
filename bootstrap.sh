@@ -17,15 +17,6 @@ echo '/swapfile none swap defaults 0 0' >> /etc/fstab
 echo updating package information
 apt-get -y update >/dev/null 2>&1
 
-install Ruby ruby-full
-install 'development tools' build-essential autoconf libtool
-
-# echo installing current RubyGems
-gem update --system -N >/dev/null 2>&1
-
-echo installing Bundler
-gem install bundler -N >/dev/null 2>&1
-
 install Git git
 install SQLite sqlite3 libsqlite3-dev
 install memcached memcached
@@ -71,3 +62,14 @@ install 'Poppler' poppler-utils
 update-locale LANG=en_US.UTF-8 LANGUAGE=en_US.UTF-8 LC_ALL=en_US.UTF-8
 
 echo 'all set, rock on!'
+
+install Ruby ruby-full
+install 'development tools' build-essential autoconf libtool libssl1.0-dev libreadline-dev
+
+sudo -u vagrant git clone https://github.com/rbenv/rbenv.git /home/vagrant/.rbenv
+sudo -u vagrant git clone https://github.com/rbenv/ruby-build.git /home/vagrant/.rbenv/plugins/ruby-build
+sudo -u vagrant echo 'export PATH="/home/vagrant/.rbenv/bin:$PATH"' >> /home/vagrant/.bash_profile
+sudo -u vagrant echo 'export PATH="/home/vagrant/.rbenv/shims:$PATH"' >> /home/vagrant/.bash_profile
+sudo -u vagrant /home/vagrant/.rbenv/bin/rbenv init
+sudo -u vagrant rbenv install 2.3.1
+
